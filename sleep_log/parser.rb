@@ -1,6 +1,4 @@
-require 'date'
-require_relative './duration'
-require_relative './/record'
+require_relative './records'
 
 module SleepLog
   class Parser
@@ -18,8 +16,10 @@ module SleepLog
       puts "Average sleep duration: #{Duration.new(average).to_hours}"
     end
 
+    private
+
     def records
-      @records ||= File.readlines(filename).reject{ |line| line.gsub('-', '').strip.empty? }.map { |line| SleepLog::Record.new(*line.split(' ')) }
+      @records ||= File.readlines(filename).reject{ |line| line.gsub('-', '').strip.empty? }.map { |line| SleepLog::Records.new(line) }
     end
 
     def average
